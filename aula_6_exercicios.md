@@ -218,14 +218,43 @@ VALUES('CC3320', 'CC1310');
 Executar as seguintes consultas:
 
 - Recuperar uma lista de todas as disciplinas e notas de Silva.
+SELECT d.nome_disciplina, he.nota
+FROM alunos a
+JOIN historicos_escolares he ON a.numero_aluno = he.numero_aluno
+JOIN turmas t ON he.identificacao_turma = t.identificacao_turma
+JOIN disciplinas d ON t.numero_disciplina = d.numero_disciplina
+WHERE a.nome = 'Silva';
+
 - Listar os nomes dos alunos que realizaram a disciplina Banco de dados oferecida no segundo semestre de 2008 e suas notas nessa turma.
+SELECT a.nome, he.nota
+FROM alunos a
+JOIN historicos_escolares he ON a.numero_aluno = he.numero_aluno
+JOIN turmas t ON he.identificacao_turma = t.identificacao_turma
+JOIN disciplinas d ON t.numero_disciplina = d.numero_disciplina
+WHERE d.nome_disciplina = 'Banco de dados' AND t.semestre = 'Segundo' AND t.ano = 2008;
+
+
 - Listar os pré-requisitos do curso de Banco de dados.
+SELECT d1.nome_disciplina AS disciplina, d2.nome_disciplina AS pre_requisito
+FROM disciplinas d1
+JOIN pre_requisitos pr ON d1.numero_disciplina = pr.numero_disciplina
+JOIN disciplinas d2 ON pr.numero_pre_requisito = d2.numero_disciplina
+WHERE d1.nome_disciplina = 'Banco de dados';
 
 
 Executar as seguintes atualizações no banco de dados
 
 - Alterar o tipo de aluno de Silva para segundo ano.
+UPDATE alunos
+SET tipo_aluno = 2
+WHERE nome = 'Silva';
+
 - Criar outra turma para a disciplina Banco de dados para este semestre.
+INSERT INTO turmas (identificacao_turma, numero_disciplina, semestre, ano, professor)
+VALUES (150, 'CC3380', 'Segundo', 2023, 'NovoProfessor');
+
 - Inserir uma nota A para Silva na turma Banco de dados do último semestre.
+INSERT INTO turmas (identificacao_turma, numero_disciplina, semestre, ano, professor)
+VALUES (150, 'CC3380', 'Segundo', 2023, 'NovoProfessor');
 
 &nbsp;
